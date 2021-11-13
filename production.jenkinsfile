@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage('dtap production') {
+            steps {
+                echo "good luck..."
+            }
+        }
+    }
+}
