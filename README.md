@@ -45,7 +45,7 @@ Voorlopig is er geen onderscheid tussen test en productie. Beide omgevingen gebr
 
 Je maakt deze 2 css files zelf aan. Maak een nieuwe, persoonlijke, **publieke** repository met als naam `groepsnaam-configuratie-dtap` waarin je deze configuraties in opslaat. Belangrijk is dat je voor de opdracht de test en productie pipeline uitbreid met een extra stage `Config env` die de juiste css file naar de juiste locatie kopieert. Als je daarna de test- of productieomgeving bezoekt, zien we de verschillende achtergrondkleuren.
 
-&emsp;&emsp;&emsp;_Info: In de praktijk staat configuraties uiteraard niet publiek, maar voor de evaluatie van de opdracht gebruiken we hier een publieke repository._
+&emsp;&emsp;&emsp;_:information_source: In de praktijk staat configuraties uiteraard niet publiek, maar voor de evaluatie van de opdracht gebruiken we hier een publieke repository._
 
 ![alt_text](https://i.imgur.com/9leib3p.png "image_tooltip") _Geef een korte omschrijving van de aanpak in oplossing.md onder punt (b)._
 
