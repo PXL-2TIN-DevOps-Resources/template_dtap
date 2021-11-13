@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+  
+    stages {
+        stage ('cleanup'){
+            steps{
+                sh "rm -rf ./*"    
+            }
+        }
+        stage('fetch app code') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/PXL-2TIN-DevOps-Resources/calculator-app-finished.git'
+            }
+        }
+    }
+}
