@@ -1,8 +1,14 @@
 # Assignment 5 Environments (DTAP)
 
-Voor deze opdracht maak je opnieuw gebruik van 2 virtuele machines:
+Voor deze opdracht maak je gebruik van 2 virtuele machines:
 *   **Testserver:** De VM met jenkins uit de vorige lessen
-*   **Productionserver:** Een nieuwe Ubuntu VM met NodeJS & npm. 
+*   **Productionserver:** Een nieuwe Ubuntu VM (zonder jenkins) 
+
+**Je installeert op beide servers nodeJS & npm via onderstaande commando's:**
+```
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
 
 Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Werk je liever met docker containers? Dat mag van ons ook, maar dan is de configuratie van onderstaande aan jou & wordt het geheel wel complexer om te configureren.
 
@@ -12,10 +18,10 @@ In de repository kan je 2 jenkinsfiles vinden. Je gebruikt beide jenkinsfiles om
 Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende extra stages in deze pipeline:
 
 *   Stage `Install dependencies`: Gebruik de global tool configuratie van nodejs met als naam "testenvnode". Deze configuratie gebruik je in deze stage om het `npm install` commando uit te voeren.
-*   Stage `Create artifact`: In deze stage wordt er een artifact  (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact. 
+*   Stage `Create artifact`: In deze stage wordt er een artifact  (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. 
 *   Stage `deploy test`: In deze stage zorg je ervoor dat je de bestanden van je artifact uitpakt in de `/opt` folder van je VM. Hierna start je, vanuit de pipeline, de NodeJS applicatie. (#TODO: checken nodejs command in pipeline blijft draaien, runnen op background?) Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
 
-    _Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen rechten in bepaalde folders? Dan zorg je ervoor dat de gebruiker `jenkins` de juiste rechten krijgt. Dit is iets wat je handmatig, buiten de pipeline, kan instellen._
+    _Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen rechten in bepaalde folders? Dan zorg je ervoor dat de gebruiker `jenkins` de juiste rechten krijgt. Dit is iets wat je handmatig, buiten de pipeline, kan instellen. (`chmod` / `chgrp`)_
     
 *   Denk aan de cleanup stappen! De pipeline moet meerdere keren na elkaar kunnen draaien.
 
