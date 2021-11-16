@@ -1,5 +1,6 @@
 # Assignment 5 Environments (DTAP)
 
+##Configuratie
 Voor deze opdracht maak je gebruik van 2 virtuele machines:
 *   **Testserver:** De VM met jenkins uit de vorige lessen
 *   **Productionserver:** Een nieuwe Ubuntu VM (zonder jenkins) 
@@ -10,8 +11,14 @@ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
+Installeer op beide servers globaal de package `pm2` via onderstaand commando:
+```
+npm install -g pm2
+```
+
 Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Werk je liever met docker containers? Dat mag van ons ook, maar dan is de configuratie van onderstaande aan jou & wordt het geheel wel complexer om te configureren.
 
+## Opgave
 In de repository kan je 2 jenkinsfiles vinden. Je gebruikt beide jenkinsfiles om ze te linken aan elk hun eigen pipeline in je jenkins omgeving. Je voorziet in deze opdracht dus 2 pipelines op de Testserver.
 
 # test.jenkinsfile
