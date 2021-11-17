@@ -51,7 +51,7 @@ _Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen re
 Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende extra stages in deze pipeline:
 *   Stage `cleanup`: Deze stap maakt de working directory van de pipeline leeg.
 *   Stage `Install dependencies`: Gebruik de global tool configuratie van nodejs met als naam "testenvnode". Deze configuratie gebruik je in deze stage om het `npm install` commando uit te voeren.
-*   Stage `Create artifact`: In deze stage wordt er een artifact (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. _Let op: zorg er ook voor dat er niet *TEVEEL* in zit!_
+*   Stage `Create artifact`: In deze stage wordt er een artifact (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. _Let op: zorg er ook voor dat er niet **TEVEEL** in zit!_
 *   Stage `deployment`: In deze stage zorg je ervoor dat je de bestanden van je artifact uitpakt in de `/opt` folder van je VM.
 
     &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat de `/opt` folder leeggemaakt moet worden in de cleanup stap voordat je de bestanden overkopieert._
@@ -67,10 +67,12 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
 
 # production.jenkinsfile
 
-Je krijg een lege pipeline. Ook deze pipeline integreer je op de jenkins server die op de `Testserver` staat. Het doel van deze pipeline is het voorzien van volgende stages:
+Je krijg een lege pipeline. Ook deze pipeline integreer je op de jenkins server die op de `Testserver` staat. Geef deze Pipeline dus ook een duidelijke naam, zodat je weet welke de test deploy en welke de productie deploy uitvoert.
 
-*   Stage `deploy prod`: Zoek een manier waarop je artifact uit de test.jenkinsfile pipeline kan gebruiken om te deployen naar je 2de Virtuele machine (dus via een remote connectie). Ook hier moeten de bestanden opnieuw in de folder `/opt` komen te staan zonder het gebruik van sudo. Vervolgens start je ook hier weer de NodeJS applicatie zodat deze bereikbaar is.
-*   Stage `start prod`: Deze stage gebruikt de `pm2` package om de applicatie te starten op de productieserver.
+Het doel van deze pipeline is het voorzien van volgende stages:
+
+*   Stage `deploy prod`: Zoek een manier waarop je artifact uit de test.jenkinsfile pipeline kan gebruiken om te deployen naar je 2de Virtuele machine (dus via een remote connectie). Ook hier moeten de bestanden opnieuw in de folder `/opt` komen te staan zonder het gebruik van sudo.
+*   Stage `start prod`: Deze stage gebruikt de `pm2` package om de applicatie te starten op de productieserver zodat deze bereikbaar is.
     * Als je verfvolgens naar het ip adres van de productieserver surft op poort 3000, zou je de applicatie moeten kunnen gebruiken.
     <br/><br/>
 
