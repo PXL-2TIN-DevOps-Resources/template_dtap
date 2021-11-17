@@ -23,7 +23,7 @@ Meer uitleg en documentatie op https://pm2.keymetrics.io/
 ### Configuratie productieserver
 De productieserver is een nieuwe kale Ubuntu server die we gebruiken voor de deployment van de applicatie in de productieomgeving. We installeren via onderstaand commando de nodige software:
 ```
-sudo apt-get install -y openssh-server git curl
+sudo apt-get install -y openssh-server git curl zip
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
@@ -59,7 +59,7 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
     &emsp;&emsp;&emsp; _Tip 2: Denk aan de nodige rechten voor de jenkins user in de `/opt` folder, stel dit op voorhand in!_
 *   Stage `run deploy`: In deze stage gebruik je `pm2` om de NodeJS applicatie in de `/opt` folder op te starten, dit kan je doen met het commando ```pm2 start server.js```
 
-    &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is. Je kan via het commando ```pm2 stop all``` alle huidige processen stoppen._
+    &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is. Je kan via het commando ```pm2 stop all || true``` alle huidige processen stoppen._
     * Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
 *   Denk aan de cleanup stappen! De pipeline moet meerdere keren na elkaar kunnen draaien.
 
