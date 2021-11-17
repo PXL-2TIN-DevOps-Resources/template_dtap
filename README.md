@@ -4,7 +4,7 @@ We starten deze opdracht met de configuratie van de 2 servers.
 ## Configuratie
 Voor deze opdracht maak je gebruik van 2 virtuele machines:
 *   **Testserver:** De VM met jenkins uit de vorige lessen
-*   **Productieserver:** Een nieuwe Ubuntu VM (zonder jenkins) 
+*   **Productieserver:** Een nieuwe Ubuntu Server VM (zonder jenkins) 
 
 ### Configuratie Testserver
 We starten met de configuratie van de testserver. Dit is de server waarop Jenkins geinstalleerd staat (en die je tijdens de vorige lessen gebruikt hebt). Installeer de nodige tools via onderstaande commando's:
@@ -18,9 +18,10 @@ We gebruiken native nodejs om bij de deployment stappen de applicatie te hosten 
 sudo npm install -g pm2
 ```
 Dit is een process manager voor NodeJS applicaties die we later gebruiken om de applicatie op te starten & te stoppen.
+Meer uitleg en documentatie op https://pm2.keymetrics.io/
 
 ### Configuratie productieserver
-De productieserver is een nieuwe kale Ubuntu desktop/server die we gebruiken voor de deployment van de applicatie in de productieomgeving. We installeren via onderstaand commando de nodige software:
+De productieserver is een nieuwe kale Ubuntu server die we gebruiken voor de deployment van de applicatie in de productieomgeving. We installeren via onderstaand commando de nodige software:
 ```
 sudo apt-get install -y openssh-server git curl
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
@@ -44,13 +45,13 @@ De `production.jenkinsfile` neemt de artifact van de `test.jenkinsfile` en deplo
 Details van bovenstaande implementaties kan je hieronder terugvinden.
 
 
-_Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen rechten in bepaalde folders? Dan zorg je ervoor dat de gebruiker `jenkins` de juiste rechten krijgt. Dit is iets wat je handmatig, buiten de pipeline, kan instellen. (`chmod` / `chgrp`)_
+_Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen rechten in bepaalde folders? Dan zorg je ervoor dat de gebruiker `jenkins` de juiste rechten krijgt. Dit is iets wat je handmatig, buiten de pipeline, kan instellen. (Zie ook Systems essentials: `chmod` / `chgrp`)_
 
 # test.jenkinsfile
 Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende extra stages in deze pipeline:
 *   Stage `cleanup`: Deze stap maakt de working directory van de pipeline leeg.
 *   Stage `Install dependencies`: Gebruik de global tool configuratie van nodejs met als naam "testenvnode". Deze configuratie gebruik je in deze stage om het `npm install` commando uit te voeren.
-*   Stage `Create artifact`: In deze stage wordt er een artifact (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. 
+*   Stage `Create artifact`: In deze stage wordt er een artifact (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. _Let op: zorg er ook voor dat er niet *TEVEEL* in zit!_
 *   Stage `deployment`: In deze stage zorg je ervoor dat je de bestanden van je artifact uitpakt in de `/opt` folder van je VM.
 
     &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat de `/opt` folder leeggemaakt moet worden in de cleanup stap voordat je de bestanden overkopieert._
