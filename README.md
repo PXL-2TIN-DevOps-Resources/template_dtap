@@ -1,35 +1,65 @@
 # Assignment 5 Environments (DTAP)
+We starten deze opdracht met de configuratie van de 2 servers.
 
-##Configuratie
+## Configuratie
 Voor deze opdracht maak je gebruik van 2 virtuele machines:
 *   **Testserver:** De VM met jenkins uit de vorige lessen
-*   **Productionserver:** Een nieuwe Ubuntu VM (zonder jenkins) 
+*   **Productieserver:** Een nieuwe Ubuntu VM (zonder jenkins) 
 
-**Je installeert op beide servers nodeJS & npm via onderstaande commando's:**
+### Configuratie Testserver
+We starten met de configuratie van de testserver. Dit is de server waarop Jenkins geinstalleerd staat (en die je tijdens de vorige lessen gebruikt hebt). Installeer de nodige tools via onderstaande commando's:
 ```
+sudo apt-get install curl
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+We gebruiken native nodejs om bij de deployment stappen de applicatie te hosten op deze server. Installeer hierna globaal de package `pm2` via onderstaand commando:
+```
+sudo npm install -g pm2
+```
+Dit is een process manager voor NodeJS applicaties die we later gebruiken om de applicatie op te starten & te stoppen.
+
+### Configuratie productieserver
+De productieserver is een nieuwe kale Ubuntu desktop/server die we gebruiken voor de deployment van de applicatie in de productieomgeving. We installeren via onderstaand commando de nodige software:
+```
+sudo apt-get install -y openssh-server git curl
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-Installeer op beide servers globaal de package `pm2` via onderstaand commando:
+Ook hier installeren we globaal de package `pm2` via onderstaand commando:
 ```
-npm install -g pm2
+sudo npm install -g pm2
 ```
 
-Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Werk je liever met docker containers? Dat mag van ons ook, maar dan is de configuratie van onderstaande aan jou & wordt het geheel wel complexer om te configureren.
+Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Na deze configuraties zijn we klaar om te starten met de opdracht.
 
 ## Opgave
-In de repository kan je 2 jenkinsfiles vinden. Je gebruikt beide jenkinsfiles om ze te linken aan elk hun eigen pipeline in je jenkins omgeving. Je voorziet in deze opdracht dus 2 pipelines op de Testserver.
+In de repository kan je 2 jenkinsfiles vinden. Je gebruikt beide jenkinsfiles om ze te linken aan elk hun eigen pipeline in je jenkins omgeving. Je voorziet in deze opdracht dus 2 pipelines op de `Testserver`. 
+
+De `test.jenkinsfile` zorgt voor een artifact en deployed deze artifact naar de `Testserver`.
+
+De `production.jenkinsfile` neemt de artifact van de `test.jenkinsfile` en deployed deze a.d.h.v. `ssh` op de `Productionserver`.
+
+Details van bovenstaande implementaties kan je hieronder terugvinden.
+
+
+_Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen rechten in bepaalde folders? Dan zorg je ervoor dat de gebruiker `jenkins` de juiste rechten krijgt. Dit is iets wat je handmatig, buiten de pipeline, kan instellen. (`chmod` / `chgrp`)_
 
 # test.jenkinsfile
 Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende extra stages in deze pipeline:
-
+*   Stage `cleanup`: Deze stap maakt de working directory van de pipeline leeg.
 *   Stage `Install dependencies`: Gebruik de global tool configuratie van nodejs met als naam "testenvnode". Deze configuratie gebruik je in deze stage om het `npm install` commando uit te voeren.
-*   Stage `Create artifact`: In deze stage wordt er een artifact  (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. 
-*   Stage `deploy test`: In deze stage zorg je ervoor dat je de bestanden van je artifact uitpakt in de `/opt` folder van je VM. Hierna start je, vanuit de pipeline, de NodeJS applicatie. (#TODO: checken nodejs command in pipeline blijft draaien, runnen op background?) Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
+*   Stage `Create artifact`: In deze stage wordt er een artifact (zip) gemaakt van de bestaande code van onze NodeJS applicatie. Deze artifact wordt later overgekopieerd naar onze servers voor deployment. Zorg er dus voor dat alle nodige zaken aanwezig zijn in de artifact om de applicatie te kunnen starten. 
+*   Stage `deployment`: In deze stage zorg je ervoor dat je de bestanden van je artifact uitpakt in de `/opt` folder van je VM.
 
-    _Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen rechten in bepaalde folders? Dan zorg je ervoor dat de gebruiker `jenkins` de juiste rechten krijgt. Dit is iets wat je handmatig, buiten de pipeline, kan instellen. (`chmod` / `chgrp`)_
-    
+    &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat de `/opt` folder leeggemaakt moet worden in de cleanup stap voordat je de bestanden overkopieert._
+
+    &emsp;&emsp;&emsp; _Tip 2: Denk aan de nodige rechten voor de jenkins user in de `/opt` folder, stel dit op voorhand in!_
+*   Stage `run deploy`: In deze stage gebruik je `pm2` om de NodeJS applicatie in de `/opt` folder op te starten, dit kan je doen met het commando ```pm2 start server.js```
+
+    &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is. Je kan via het commando ```pm2 stop all``` alle huidige processen stoppen._
+    * Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
 *   Denk aan de cleanup stappen! De pipeline moet meerdere keren na elkaar kunnen draaien.
 
 ![alt_text](https://i.imgur.com/9leib3p.png "image_tooltip") _Heb je aanpassingen gedaan om jenkins rechten te geven tot bepaalde mappen, dan documenteer je dit in oplossing.md onder punt (a)._
