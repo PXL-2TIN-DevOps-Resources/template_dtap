@@ -66,25 +66,30 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
 
 # production.jenkinsfile
 
-Je krijg een lege pipeline. Ook deze pipeline integreer je op de jenkins server die op de test server staat. Het doel van deze pipeline is het voorzien van volgende stages:
+Je krijg een lege pipeline. Ook deze pipeline integreer je op de jenkins server die op de `Testserver` staat. Het doel van deze pipeline is het voorzien van volgende stages:
 
 *   Stage `deploy prod`: Zoek een manier waarop je artifact uit de test.jenkinsfile pipeline kan gebruiken om te deployen naar je 2de Virtuele machine (dus via een remote connectie). Ook hier moeten de bestanden opnieuw in de folder `/opt` komen te staan zonder het gebruik van sudo. Vervolgens start je ook hier weer de NodeJS applicatie zodat deze bereikbaar is.
+*   Stage `start prod`: Deze stage gebruikt de `pm2` package om de applicatie te starten op de productieserver.
+    * Als je verfvolgens naar het ip adres van de productieserver surft op poort 3000, zou je de applicatie moeten kunnen gebruiken.
+    <br/><br/>
 
     &emsp;&emsp;&emsp; _Tip 1: Het gebruiken van een artifact uit een andere pipeline kan op 2 manieren: Je kan kijken waar & op welke manier Jenkins artifacts opslaat op het bestandssysteem of je kan gebruik maken van de plugin `copyartifact`_
 
      &emsp;&emsp;&emsp;_Tip 2: Maak verder gebruik van de jenkings plugin `sshagent` die werkt met SSH keys als authenticatie. Denk hierbij ook aan de opdracht uit security essentials vorig jaar: Hoe kon je ssh keys gebruiken om je te authenticeren op een linux machine?_
      
-    &emsp;&emsp;&emsp;_Tip 3: Denk hierbij aan de commando’s gezien bij onder andere systems advanced. Het kopiëren van bestanden van één server naar een andere kan met het `scp` commando. Doe hierbij het nodige opzoekingswerk._
+    &emsp;&emsp;&emsp;_Tip 3: Denk hierbij aan de commando’s gezien bij onder andere systems advanced. Het kopiëren van bestanden van één server naar een andere kan met het `scp` commando. Het uitvoeren van commando's op een andere server kan via `ssh`. Doe hierbij het nodige opzoekingswerk._
 
-*   Stage `test prod`: Doe een check om te kijken of de applicatie werkt. Voorlopig kan je dit testen met het `curl` commando om te controleren of je een statuscode 200 krijgt als je het IP adres van de 2de server bezoekt.
+    &emsp;&emsp;&emsp;_Tip 4: Denk ook in deze pipeline aan de nodige cleanup stappen op de remote server._
+
+*   Stage `test prod`: Doe een check om te kijken of de applicatie werkt. Voorlopig kan je dit testen met het `curl` commando om te controleren of je een statuscode 200 krijgt als je het IP adres van de `productieserver` bezoekt.
 *   Denk aan de cleanup stappen! De pipeline moet meerdere keren na elkaar kunnen draaien.
 
 # Configuration management
 
 Voorlopig is er geen onderscheid tussen test en productie. Beide omgevingen gebruiken dezelfde artifact met dezelfde configuratie. Vanuit het concept “build once, deploy anywhere” is het ook belangrijk dat we die zelfde artifact gebruiken voor beide omgevingen. Voor de oefening voorzien we de verschillen in configuratie aan de hand van 2 CSS files:
 
-*   Test.style.css: de body heeft een rode achtergrond
-*   Prod.style.css: de body heeft een blauwe achtergrond
+*   `Test.style.css`: de body heeft een rode achtergrond
+*   `Prod.style.css`: de body heeft een blauwe achtergrond
 
 Je maakt deze 2 css files zelf aan. Maak een nieuwe, persoonlijke, **publieke** repository met als naam `groepsnaam-configuratie-dtap` waarin je deze configuraties in opslaat. Belangrijk is dat je voor de opdracht de test en productie pipeline uitbreid met een extra stage `Config env` die de juiste css file naar de juiste locatie kopieert. Als je daarna de test- of productieomgeving bezoekt, zien we de verschillende achtergrondkleuren.
 
@@ -94,19 +99,19 @@ Je maakt deze 2 css files zelf aan. Maak een nieuwe, persoonlijke, **publieke** 
 
 ![alt_text](https://i.imgur.com/9leib3p.png "image_tooltip") _Zorg ervoor dat alle **werkende** stappen aanwezig zijn in de Jenkinsfiles van je repository. Indien deze hier niet in staan, krijg je voor deze opdracht ook geen punten._
 
-## Bonusopdracht
+## Bonusopdracht (niet verplicht)
 _Het uitvoeren van deze opdracht levert je bonuspunten op, je krijgt als groep geen punten af als dit gedeelte niet gemaakt is._
 
-Binnen nodeJS kan je gebruik maken van de package [dotenv](https://www.npmjs.com/package/dotenv) om variabele per omgeving te maken die dan in de code opgeroepen worden. De calucaltor app is gebouwd om gebruik te kunnen maken van deze package zodat je via een `.env` file kan bepalen op welke poort de applicatie moet opstarten. Als uitbreiding zorg je ervoor dat de test applicatie op poort 4000 draait en de productie server op poort 80. Om dit te realiseren gebruik je `.env` files die je ook in de configuratie repository opslaat.
+Binnen nodeJS kan je gebruik maken van de package [dotenv](https://www.npmjs.com/package/dotenv) om variabele per omgeving te maken die dan in de code opgeroepen worden. De calucaltor app is gebouwd om gebruik te kunnen maken van deze package zodat je via een `.env` file kan bepalen op welke poort de applicatie moet opstarten. Als uitbreiding zorg je ervoor dat de applicatie van de `testserver` op poort 4000 draait en de `productieserver` op poort 80. Om dit te realiseren gebruik je `.env` files die je ook in de configuratie repository opslaat.
 
 # Deliverable
-Een repository met:
+Deze repository met:
 - Een opgevulde test.jenkinsfile met bovenstaande beschreven stages
     - Geen gevulde Jenkinsfile = 0 op deze deelopdracht
     - Een niet werkende (=syntax errors in het pipeline script) Jenkinsfile = -30% op het eindresultaat
 - Een opgevulde production.jenkinsfile
     - Geen gevulde Jenkinsfile = 0 op deze deelopdracht
     - Een niet werkende (=syntax errors in het pipeline script) Jenkinsfile = -30% op het eindresultaat
-- Een uitbreiding in de test.jenkinsfile met daarin de nodige stappen voor de configuratiemanagement
-- Een opgevulde oplossing.md file met antwoorden op bovenstaande vragen inclusief screenshots
-- Optioneel: de uitwerking van de bonusopdracht die geïntegreerd is in de pipeline scripts
+- Een uitbreiding in beide jenkinsfiles met daarin de nodige stappen voor de configuratiemanagement.
+- Een opgevulde `oplossing.md` file met antwoorden op bovenstaande vragen inclusief screenshots indien nodig.
+- Optioneel: De uitwerking van de bonusopdracht die geïntegreerd is in de pipeline scripts.
