@@ -20,6 +20,12 @@ sudo npm install -g pm2
 Dit is een process manager voor NodeJS applicaties die we later gebruiken om de applicatie op te starten & te stoppen.
 Meer uitleg en documentatie op https://pm2.keymetrics.io/
 
+Om pm2 probleemloos te gebruiken vanuit de pipeline, moet je eenmalig een pm2 commando runnen om de deamon te initialiseren. Doe dit a.d.v.h. volgende commando's:
+```
+sudo su jenkins
+pm2 start
+```
+
 ### Configuratie productieserver
 De productieserver is een nieuwe kale Ubuntu server die we gebruiken voor de deployment van de applicatie in de productieomgeving. We installeren via onderstaand commando de nodige software:
 ```
