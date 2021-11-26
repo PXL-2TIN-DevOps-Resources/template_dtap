@@ -23,6 +23,8 @@ Meer uitleg en documentatie op https://pm2.keymetrics.io/
 Om pm2 probleemloos te gebruiken vanuit de pipeline, moet je eenmalig een pm2 commando runnen om de deamon te initialiseren. Doe dit a.d.v.h. volgende commando's:
 ```
 sudo su jenkins
+cd ~
+rm -rf .pm2
 pm2 start
 ```
 
