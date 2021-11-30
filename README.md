@@ -36,9 +36,11 @@ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-Ook hier installeren we globaal de package `pm2` via onderstaand commando:
+Ook hier installeren we globaal de package `pm2` via onderstaand commando en zorgen we voor de initialisatie:
 ```
 sudo npm install -g pm2
+rm -rf .pm2
+pm2 start
 ```
 
 Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Na deze configuraties zijn we klaar om te starten met de opdracht.
