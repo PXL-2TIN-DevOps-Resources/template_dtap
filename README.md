@@ -43,6 +43,7 @@ rm -rf .pm2
 pm2 start
 ```
 
+
 Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Na deze configuraties zijn we klaar om te starten met de opdracht.
 
 ## Opgave
@@ -67,7 +68,7 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
     &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat de `/opt` folder leeggemaakt moet worden in de cleanup stap voordat je de bestanden overkopieert._
 
     &emsp;&emsp;&emsp; _Tip 2: Denk aan de nodige rechten voor de jenkins user in de `/opt` folder, stel dit op voorhand in!_
-*   Stage `run deploy`: In deze stage gebruik je `pm2` om de NodeJS applicatie in de `/opt` folder op te starten, dit kan je doen met het commando ```pm2 start server.js```
+*   Stage `run deploy`: In deze stage gebruik je `pm2` om de NodeJS applicatie in de `/opt` folder op te starten, dit kan je doen met het commando ```pm2 start server.js``` (vanuit de map waar dit bestand staat)
 
     &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is. Je kan via het commando ```pm2 stop all || true``` alle huidige processen stoppen._
     * Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
