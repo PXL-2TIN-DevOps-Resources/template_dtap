@@ -13,7 +13,7 @@ sudo apt-get install curl
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
-We gebruiken native nodejs om bij de deployment stappen de applicatie te hosten op deze server. Installeer hierna globaal de package `pm2` via onderstaand commando:
+We gebruiken native nodejs om bij de deployment stappen de applicatie te hosten op deze server. Installeer hierna globaal de package `pm2` via onderstaand commando (hiervoor moet NodeJS geinstalleerd staan op je systeem. Normaal gezien is dit het geval door de oefening van les 1):
 ```
 sudo npm install -g pm2
 ```
