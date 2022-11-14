@@ -71,6 +71,8 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
 *   Stage `run deploy`: In deze stage gebruik je `pm2` om de NodeJS applicatie in de `/opt` folder op te starten, dit kan je doen met het commando ```pm2 start server.js``` (vanuit de map waar dit bestand staat)
 
     &emsp;&emsp;&emsp; _Tip 1: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is. Je kan via het commando ```pm2 stop all || true``` alle huidige processen stoppen._
+    
+    &emsp;&emsp;&emsp; _Tip 2: PM2 commando's debuggen? Je kan de logs bekijken via het commando ```sudo su jenkins && pm2 logs```._
     * Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
 *   Denk aan de cleanup stappen! De pipeline moet meerdere keren na elkaar kunnen draaien.
 
