@@ -27,6 +27,7 @@ cd ~
 rm -rf .pm2
 pm2 start
 ```
+!! Je krijgt een foutmelding over een config file die niet gevonden wordt, deze mag je negeren. Belangrijk in deze stap is het initialisen van de daemon !!
 
 ### Configuratie productieserver
 De productieserver is een nieuwe kale Ubuntu server die we gebruiken voor de deployment van de applicatie in de productieomgeving. We installeren via onderstaand commando de nodige software:
@@ -36,13 +37,13 @@ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-Ook hier installeren we globaal de package `pm2` via onderstaand commando en zorgen we voor de initialisatie:
+Ook hier installeren we globaal de package `pm2` via onderstaand commando en zorgen we voor de initialisatie (je voert deze commando's uit met de default user van je systeem op deze server):
 ```
 sudo npm install -g pm2
 rm -rf .pm2
 pm2 start
 ```
-
+!! Je krijgt een foutmelding over een config file die niet gevonden wordt, deze mag je negeren. Belangrijk in deze stap is het initialisen van de daemon !!
 
 Het is belangrijk dat beide servers met elkaar kunnen communiceren. Het kan makkelijker zijn als je de productieserver een statisch IP adres geeft. Na deze configuraties zijn we klaar om te starten met de opdracht.
 
