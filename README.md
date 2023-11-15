@@ -1,4 +1,4 @@
-# Assignment 5 Environments (DTAP)
+# Assignment 6 Environments (DTAP)
 We starten deze opdracht met de configuratie van de 2 servers.
 
 ## Configuratie
