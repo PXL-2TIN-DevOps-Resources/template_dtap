@@ -79,6 +79,20 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
 
 ![alt_text](https://i.imgur.com/9leib3p.png "image_tooltip") _Heb je aanpassingen gedaan om jenkins rechten te geven tot bepaalde mappen, dan documenteer je dit in oplossing.md onder punt (a)._
 
+## Troubleshooting
+Krijg je als melding in de pipeline dat de server succesvol wordt opgestart maar kan je toch niet naar `localhost:3000` surfen? Dan kan je onderstaande stappen gebruiken om te troubleshooten.
+
+* Het kan zijn dat er iets misgelopen is met de configuratie & installatie van `pm2` Voer volgende stappen in exact dezelfde volgorde uit om deze configuratie te resetten. Vervolgens kan je de pipeline opnieuw uitvoeren om te testen:
+```
+$ rm -rf ~/.pm2
+$ sudo rm -rf /var/lib/jenkins/.pm2
+$ sudo npm uninstall -g pm2
+$ sudo npm install -g pm2
+$ sudo su jenkins
+$ cd ~ && pm2 start
+```
+* Open een terminal op je server en voer `sudo su jenkins` uit. Vervolgens run je het commando `pm2 logs server`. Dit geeft je de logs van de applicatie, misschien is daar ergens iets misgelopen.
+  
 # production.jenkinsfile
 
 Je krijg een lege pipeline. Ook deze pipeline integreer je op de jenkins server die op de `Testserver` staat. Geef deze Pipeline dus ook een duidelijke naam, zodat je weet welke de test deploy en welke de productie deploy uitvoert.
