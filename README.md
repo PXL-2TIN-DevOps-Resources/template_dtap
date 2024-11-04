@@ -32,7 +32,8 @@ _Tip: Het is niet toegelaten om het `sudo` commando te gebruiken. Heb je geen re
 Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende extra stages in deze pipeline:
 *   Stage `cleanup`: Deze stap maakt de working directory van de pipeline leeg.
 *   Stage `Install dependencies`: Gebruik de global tool configuratie van nodejs met als naam "testenvnode". Deze configuratie gebruik je in deze stage om het `npm install` commando uit te voeren.
-*   Stage `Create artifact`: In deze stage maak je een docker container van de nodeJS applicatie. (Tip: Zorg eerst voor een werkende Dockerfile en test deze lokaal). De container wordt vanuit de pipeline gebuild en gepusht naar dockerhub.
+*   Stage `Build artifact`: In deze stage bouw je een docker container van de nodeJS applicatie. (Tip: Zorg eerst voor een werkende Dockerfile en test deze lokaal). De container wordt vanuit de pipeline gebuild.
+*   Stage `Push artifact`: In deze stage push je de gebouwde container naar dockerhub. Je maakt hier gebruik van een publieke imagine op het profiel van één van je teamgenoten.
 *   Stage `deployment`: In deze stage zorg je ervoor dat de docker container opgestart wordt op poort 3000 en blijft draaien na het uitvoeren van de pipeline.
         &emsp;&emsp;&emsp; _Tip 1: Gebruik de container vanuit dockerhub!_
         &emsp;&emsp;&emsp; _Tip 2: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is._
