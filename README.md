@@ -35,8 +35,11 @@ Je krijgt reeds een bestaande pipeline met enkele stages in. Voorzie volgende ex
 *   Stage `Build artifact`: In deze stage bouw je een docker container van de nodeJS applicatie. (Tip: Zorg eerst voor een werkende Dockerfile en test deze lokaal). De container wordt vanuit de pipeline gebuild.
 *   Stage `Push artifact`: In deze stage push je de gebouwde container naar dockerhub. Je maakt hier gebruik van een publieke imagine op het profiel van één van je teamgenoten.
 *   Stage `deployment`: In deze stage zorg je ervoor dat de docker container opgestart wordt op poort 3000 en blijft draaien na het uitvoeren van de pipeline.
+*   
         &emsp;&emsp;&emsp; _Tip 1: Gebruik de container vanuit dockerhub!_
+    
         &emsp;&emsp;&emsp; _Tip 2: Denk eraan dat er misschien nog een vorige versie van de applicatie actief is._
+    
     * Als je vervolgens naar [http://localhost:3000](http://localhost:3000) surft in de vm, zal je de calculator app kunnen gebruiken.
 *   Denk aan de cleanup stappen! De pipeline moet meerdere keren na elkaar kunnen draaien.
 
@@ -52,6 +55,7 @@ Het doel van deze pipeline is het voorzien van volgende stages:
 *   Stage `start prod`: Zorg ervoor dat de container wordt opgestart op je remote server. Na het opstarten moet je de applicatie kunnen gebruiken op poort 80.
     <br/><br/>
      &emsp;&emsp;&emsp;_Tip 1: Maak verder gebruik van de jenkings plugin `sshagent` die werkt met SSH keys als authenticatie. Denk hierbij ook aan de opdracht uit security essentials vorig jaar: Hoe kon je ssh keys gebruiken om je te authenticeren op een linux machine?_
+    
     &emsp;&emsp;&emsp;_Tip 2: Denk ook in deze pipeline aan de nodige cleanup stappen op de remote server._
 
 *   Stage `test prod`: Doe een check om te kijken of de applicatie werkt. Voorlopig kan je dit testen met het `curl` commando om te controleren of je een statuscode 200 krijgt als je het IP adres van de `productieserver` bezoekt.
