@@ -17,7 +17,7 @@ De productieserver is een nieuwe kale Ubuntu **server** die we gebruiken voor de
 Belangrijk is dat de `ubuntu` user het docker commando moeten kunnen gebruiken (zonder `sudo`!!). Denk doorheen de opdracht ook goed na over het gebruik van security groups (poort 22 voor `ssh`/`scp`, poort 80 voor de gedeployde app, ...).
 
 ## Opgave
-In de repository kan je 2 jenkinsfiles vinden. Je gebruikt beide jenkinsfiles, maakt voor elk hun eigen pipeline in je jenkins omgeving. Je voorziet in deze opdracht dus 2 pipelines op de `Testserver`, de test **'test deployment'** pipeline en de **'productie deployment'** pipeline
+In de repository kan je 2 jenkinsfiles vinden. Je gebruikt beide jenkinsfiles, maakt voor elk hun eigen pipeline in je jenkins omgeving. Je voorziet in deze opdracht dus 2 pipelines op de `Testserver`, de **'test deployment'** pipeline en de **'productie deployment'** pipeline
 
 De `test.jenkinsfile` doorloopt het hele CI/CD process en zorgt voor een artifact en deployed dit artifact naar de `Testserver`.
 
